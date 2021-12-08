@@ -3,7 +3,7 @@ package com.bookmyshow.app.usecases;
 import com.bookmyshow.app.dtos.CreateUserDTO;
 import com.bookmyshow.app.models.User;
 import com.bookmyshow.app.repositories.interfaces.UserRepository;
-import com.bookmyshow.app.services.utils.passwordencoder.PasswordEncoder;
+import com.bookmyshow.app.services.passwordencoder.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service

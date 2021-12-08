@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
+
 @Getter
 @Setter
 @MappedSuperclass
@@ -37,12 +38,17 @@ public abstract class Auditable {
     }
 
     @Override
+    public String toString() {
+        return "Auditable{" +
+                "id=" + id +
+                ", created=" + created +
+                ", updated=" + updated +
+                '}';
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(id);
     }
 
-    @Override
-    public String toString() {
-        return ", id=" + id;
-    }
 }

@@ -38,3 +38,19 @@ public class Admin extends Exposed {
                 '}';
     }
 }
+
+// if (user.getRoles().contains(ADMIN)) {
+//   Admin admin = new Admin(user);
+//   admin.addCity(DELHI);
+//   admin.addCinema(PVT);
+// }
+
+// class CityController {
+//   City addCity(String name, String pincode, User user) {
+//        if (!user.getRoles().contains(ADMIN)) {
+//           return 403Error;
+//        }
+//        cityService.addCity(name, pincode);
+//   }
+//
+// }

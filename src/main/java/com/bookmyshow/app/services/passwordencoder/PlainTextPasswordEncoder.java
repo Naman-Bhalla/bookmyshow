@@ -1,4 +1,4 @@
-package com.bookmyshow.app.services.utils.passwordencoder;
+package com.bookmyshow.app.services.passwordencoder;
 
 import org.springframework.stereotype.Service;
 

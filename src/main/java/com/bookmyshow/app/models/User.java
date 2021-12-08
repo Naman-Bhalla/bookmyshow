@@ -2,7 +2,8 @@ package com.bookmyshow.app.models;
 
 import com.bookmyshow.app.exceptions.validation.InvalidUsernameException;
 import com.bookmyshow.app.exceptions.validation.PasswordTooSimpleException;
-import com.bookmyshow.app.services.utils.passwordencoder.PasswordEncoder;
+import com.bookmyshow.app.repositories.interfaces.CustomerRepository;
+import com.bookmyshow.app.services.passwordencoder.PasswordEncoder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Getter
@@ -24,8 +26,9 @@ public class User extends Auditable {
     private String hashedSaltedPassword;
 
     // authorization
+    // private List<Role> O(N)
     @ManyToMany
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles = new HashSet<>(); // O(1)
 
     public User(String username) {
         this.username = username;
@@ -39,6 +42,10 @@ public class User extends Auditable {
         this.username = username;
     }
 
+    // hashing + salting (every user we have a separate random salt)
+    // best practices for securing a password
+    // stored_password = f(h(password), salt)
+    // bcrypt password encoder
     public void setPassword(String password, PasswordEncoder passwordEncoder) {
         if (password.length() < 8) {
             throw new PasswordTooSimpleException("must have atleast 8 characters");
@@ -46,7 +53,19 @@ public class User extends Auditable {
         String salt = "salt"; // from some service
         this.hashedSaltedPassword = passwordEncoder.encode(password + salt);
         this.hashedSaltedPassword += ";" + salt;
+
+        CustomerRepository customerRepository;
+//        Optional<Customer> customer = customerRepository.findCustomerByEmail("naman@scaler.com");
+//
+//        if (customer.isEmpty()) {
+//            System.out.println("No customer matching the criteria");
+//        }
+
     }
+
+    // your db got leaked
+    // 12345678 -> abcdef
+    // f(1233454salt5677, )
 
 
     public boolean checkPassword(String password, PasswordEncoder passwordEncoder) {
